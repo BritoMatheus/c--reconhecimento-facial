@@ -1,0 +1,177 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Start home-about Area -->
+<section class="home-about-area pt-120">
+    <div class="container">
+
+        <div class="alert alert-danger" role="alert" id="errorAlertId"></div>
+        <div class="alert alert-warning" role="alert" id="warningAlertId"></div>
+
+        <div class="row align-items-center justify-content-between">
+            <div class="col-lg-6 col-md-6 home-about-left" id="image_previewId">
+                <img class="img-fluid" src="~/Content/img/wait.png" alt="" id="imgId">
+            </div>
+            <div class="col-lg-5 col-md-6 home-about-right">
+                <h6>Reconhecimento</h6>
+                <h1 class="text-uppercase">Descobrimos sua emoção</h1>
+                <p>
+                    Duvída que conseguimos?
+                    <br />
+                    Mande sua foto e saberá
+                </p>
+                <input class="primary-btn text-uppercase" type="file" id="imageSelecionadaId" name="image" />
+            </div>
+
+            <div id="messageId"></div>
+        </div>
+    </div>
+</section>
+<!-- End home-about Area -->
+<!-- Start Align Area -->
+<div class="whole-wrap">
+    <div class="container">
+        <!-- Start table results -->
+        <div class="section-top-border">
+            <h3 class="mb-30">Emoções</h3>
+            <div class="progress-table-wrap">
+                <div class="progress-table">
+                    <div class="table-head">
+                        <div class="country">Emoção</div>
+                        <div class="percentage">Quantidade</div>
+                    </div>
+
+                    <div id="divResultadoId">
+
+                    </div>
+
+                    @*<div class="table-row">
+                            <div class="country"> <img src="img/elements/f1.jpg">Alegria</div>
+                            <div class="percentage">
+                                <div class="progress">
+                                    <div class="progress-bar color-1" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>*@
+
+                </div>
+            </div>
+        </div>
+        <!-- End table results -->
+    </div>
+</div>
+<!-- End Align Area -->
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function (e) {
+        closeAlerts();
+
+        $("#imageSelecionadaId").change(function () {
+            closeAlerts();
+            $("#messageId").empty();
+            $('#divResultadoId').empty();
+
+            var file = this.files[0];
+            var imagefile = file.type;
+            var match = ["image/jpeg", "image/png", "image/jpg"];
+            if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]))) {
+                $('#imgId').attr('src', '/Content/img/wait.png');
+                showError('Selecione um arquivo de imagem');
+                return false;
+            }
+            else {
+                var reader = new FileReader();
+                reader.onload = imageIsLoaded;
+                reader.readAsDataURL(this.files[0]);
+            }
+
+            var formData = new FormData();
+            var totalFiles = document.getElementById("imageSelecionadaId").files.length;
+            if (totalFiles == 0)
+                return;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("imageSelecionadaId").files[i];
+                formData.append("imageSelecionadaId", file);
+            }
+
+            onLoading(true);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UploadAsync", "Reconhecimento")',
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                async: true,
+                processData: false,
+                success: function(response) {
+                    TratarRetorno(response);
+                },
+                error: function (request, error) {
+                    onLoading(false);
+                    showError('Ocorreu um erro interno');
+                }
+            });
+        });
+    });
+
+    function onLoading(active) {
+        if (active)
+            $('#cover-spin').show(0);
+        else
+            $('#cover-spin').hide(0);
+    }
+
+    function showError(mensagem) {
+        $('#errorAlertId').show();
+        $('#errorAlertId').html(mensagem);
+        scroolToElement('#errorAlertId');
+    }
+
+    function showWarning(mensagem) {
+        $('#warningAlertId').show();
+        $('#warningAlertId').html(mensagem);
+        scroolToElement('#warningAlertId');
+    }
+
+    function closeAlerts() {
+        $('#errorAlertId').hide();
+        $('#warningAlertId').hide();
+    }
+
+    function scroolToElement(id) {
+        $('body, html, ' + id).scrollTop(0);
+    }
+
+    function imageIsLoaded(e) {
+        $("#imageSelecionadaId").css("color", "green");
+        $('#image_previewId').css("display", "block");
+        $('#imgId').attr('src', e.target.result);
+        $('#imgId').attr('width', '250px');
+        $('#imgId').attr('height', '230px');
+    };
+
+    function TratarRetorno(data) {
+        onLoading(false);
+
+        if (!data.Sucesso)
+            showWarning(data.Mensagem);
+
+        var html = '';
+
+        data.Emocoes.forEach(function (currentValue, index, arr) {
+            html += `
+                <div class="table-row">
+                    <div class="country"> <img src="/Content/img/emotions/${ currentValue.Nome }.svg">${ currentValue.Nome }</div>
+                    <div class="percentage">
+                        <div class="progress">
+                            <div class="progress-bar color-1" role="progressbar" style="width: ${ currentValue.Valor * 100 }%" aria-valuenow="${ currentValue.Valor * 100 }" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+                `;
+        });
+
+        $('#divResultadoId').append(html);
+    }
+</script>

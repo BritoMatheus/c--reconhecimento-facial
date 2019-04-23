@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="~/Content/img/fav.png">
+    <title>Reconhecimento Facial</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css/linearicons.css")
+    @Styles.Render("~/Content/css/font-awesome.min.css")
+    @Styles.Render("~/Content/css/bootstrap.css")
+    @Styles.Render("~/Content/css/magnific-popup.css")
+    @Styles.Render("~/Content/css/nice-select.css")
+    @Styles.Render("~/Content/css/animate.min.css")
+    @Styles.Render("~/Content/css/owl.carousel.css")
+    @Styles.Render("~/Content/css/main.css")
+    @Styles.Render("~/Content/css/Site.css")
+
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+    <header id="header">
+        <div class="container main-menu">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo">
+                    <a href="/Home"><img src="~/Content/img/logo.png" alt="" title="" style="max-width: 37px !important;" /></a>
+                </div>
+                <nav id="nav-menu-container">
+                    <ul class="nav-menu">
+                        <li>@Html.ActionLink("Início", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Reconhecimento", "Index", "Reconhecimento")</li>
+                        <li>Trabalho desenvolvido por Matheus Brito e Eduardo Neris. 7SIAN</li>
+                    </ul>
+                </nav><!-- #nav-menu-container -->
+            </div>
+        </div>
+    </header>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Content/js/vendor/jquery-2.2.4.min.js")
+    @Scripts.Render("~/Content/js/popper.min.js")
+    @Scripts.Render("~/Content/js/vendor/bootstrap.min.js")
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+    @Scripts.Render("~/Content/js/easing.min.js")
+    @Scripts.Render("~/Content/js/hoverIntent.js")
+    @Scripts.Render("~/Content/js/superfish.min.js")
+    @Scripts.Render("~/Content/js/jquery.ajaxchimp.min.js")
+    @Scripts.Render("~/Content/js/jquery.magnific-popup.min.js")
+    @Scripts.Render("~/Content/js/jquery.tabs.min.js")
+    @Scripts.Render("~/Content/js/jquery.nice-select.min.js")
+    @Scripts.Render("~/Content/js/isotope.pkgd.min.js")
+    @Scripts.Render("~/Content/js/waypoints.min.js")
+    @Scripts.Render("~/Content/js/jquery.counterup.min.js")
+    @Scripts.Render("~/Content/js/simple-skillbar.js")
+    @Scripts.Render("~/Content/js/owl.carousel.min.js")
+    @Scripts.Render("~/Content/js/mail-script.js")
+    @Scripts.Render("~/Content/js/main.js")
+    @RenderSection("scripts", required: false)
+
+    <div id="cover-spin"></div>
+
+    @RenderBody()
+
+    <footer class="footer-area section-gap">
+        <div class="container">
+            <div class="row">
+                <div class="single-footer-widget">
+                    <h4>Trabalho de Inteligência artificial</h4>
+                    <p>
+                        Trabalho desenvolvido por Matheus Brito e Eduardo Neris. 7SIAN
+                    </p>
+                    <p class="footer-text">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
