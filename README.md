@@ -1,4 +1,4 @@
-# c-sharp-reconhecimento-facial
+# Reconhecimento facil com c# e Azure
 Projeto em asp.net MVC de reconhecimento facial consumindo os serviços do Azure.
 
 Desenvolvido um protótipo de reconhecimento de emoções em asp.net MVC, linguagem c#. O protótipo é um site que consumindo os serviços da ferramenta AZURE. Ao inserir uma Imagem que contenham apenas uma face a aplicação requisitará os serviços do AZURE e apresentará as emoções da imagem enviada.
